@@ -1,4 +1,5 @@
-/* Zics Tophe - Style Global */
+
+/* Zics Tophe - Style Global corrigé */
 
 body {
   margin: 0;
@@ -15,7 +16,6 @@ body {
 body.fade-in { opacity: 1; }
 body.fade-out { opacity: 0; }
 
-/* HEADER + NAV */
 header {
   background: rgba(0, 0, 0, 0.7);
   padding: 20px;
@@ -38,7 +38,7 @@ nav ul {
 }
 
 nav ul li a {
-  color: #fff;
+  color: white;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -59,26 +59,24 @@ nav ul li a:hover {
   .menu-toggle {
     display: block;
   }
+
   #main-nav {
     display: none;
     width: 100%;
   }
-  #main-nav ul {
-    flex-direction: column;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 10px;
-    margin-top: 10px;
-  }
+
   #main-nav.show {
     display: block;
   }
+
   nav ul {
     flex-direction: column;
     align-items: center;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px;
   }
 }
 
-/* SECTIONS */
 section {
   flex: 1;
   padding: 60px 20px;
@@ -92,17 +90,6 @@ h1, h2 {
   animation: fadeInDown 0.8s ease;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* FOOTER */
 footer {
   background: rgba(0, 0, 0, 0.6);
   padding: 15px;
@@ -110,7 +97,6 @@ footer {
   font-size: 0.9em;
 }
 
-/* BOUTONS */
 button, .btn {
   background-color: #fff;
   color: #000;
@@ -127,7 +113,6 @@ button:hover, .btn:hover {
   color: #000;
 }
 
-/* FORMULAIRES */
 input, textarea {
   width: 100%;
   padding: 12px;
@@ -137,41 +122,12 @@ input, textarea {
   font-size: 1em;
 }
 
-/* AUDIO */
-.audio-section .playlist {
-  list-style: none;
-  padding: 0;
-  margin: 20px auto;
-  max-width: 600px;
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.audio-section .playlist li {
-  padding: 12px;
-  margin: 8px 0;
-  background: rgba(255,255,255,0.1);
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.audio-section .playlist li:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-audio {
-  margin-top: 15px;
-  width: 90%;
-  max-width: 600px;
-}
-
-#now-playing {
-  margin-top: 20px;
-  font-weight: bold;
-  font-size: 1.2em;
-  text-align: center;
-}
-
-/* ICÔNES */
-.fa {
-  margin-right: 8px;
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
