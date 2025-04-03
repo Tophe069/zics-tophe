@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zics Tophe - Contact</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: url('background.jpg') no-repeat center center/cover;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    body.fade-in { opacity: 1; }
+    body.fade-out { opacity: 0; }
+
+    header {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo { font-size: 1.5em; font-weight: 700; }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .contact-section {
+      flex: 1;
+      padding: 60px 20px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 1s ease;
+    }
+
+    .contact-section h2 {
+      font-size: 2em;
+      margin-bottom: 30px;
+    }
+
+    .contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .contact-form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    .contact-form button {
+      background-color: #fff;
+      color: #000;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .contact-form button:hover {
+      background-color: #f1f1f1;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 15px;
+      text-align: center;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      header {
+        flex-direction: column;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Boîte de confirmation */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .modal-content {
+      background: #222;
+      color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.2em;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+  </style>
+  <link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-rkJcG9e0T+dKMb2OLl+Irc1NJDo/NSZtYMgDEjDQESr8PRCqGhf/vqYYpbXYwBfHOw3syKsUVxX7MbWKhkdrUg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+  <header>
+    <div class="logo">Zics Tophe</div>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="fade-link">Accueil</a></li>
+        <li><a href="audio.html" class="fade-link">Musiques</a></li>
+        <li><a href="contact.html" class="fade-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="contact-section">
+    <h2>📬 Contacte-moi, mon doux mélomane</h2>
+<form class="contact-form" id="contactForm" action="https://formspree.io/f/xdkewzbe" method="POST">
+  <label for="name">Nom :</label>
+  <input type="text" id="name" name="Nom" required>
+
+  <label for="email">Email :</label>
+  <input type="email" id="email" name="Email" required>
+
+  <label for="message">Message :</label>
+  <textarea id="message" name="Message" rows="5" required></textarea>
+
+  <button type="submit">Envoyer</button>
+</form>
+
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Zics Tophe. Tous droits réservés.</p>
+  </footer>
+
+  <!-- Boîte de confirmation -->
+  <div class="modal" id="confirmationModal">
+    <div class="modal-content">
+      ✅ Message bien envoyé !<br/>
+      Redirection vers l'accueil...
+    </div>
+  </div>
+
+  <script>
+    // Fade-in à l’arrivée
+    window.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add("fade-in");
+    });
+
+    // Liens avec fondu
+    document.querySelectorAll(".fade-link").forEach(link => {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+        const href = this.getAttribute("href");
+        document.body.classList.remove("fade-in");
+        document.body.classList.add("fade-out");
+        setTimeout(() => {
+          window.location.href = href;
+        }, 1000);
+      });
+    });
+
+    // Confirmation après clic sur Envoyer
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault(); // Empêche l'envoi réel
+
+      // Affiche le message
+      const modal = document.getElementById("confirmationModal");
+      modal.style.display = "flex";
+
+      // Attend 3 secondes puis redirige
+      setTimeout(() => {
+        document.body.classList.remove("fade-in");
+        document.body.classList.add("fade-out");
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1000);
+      }, 3000);
+    });
+  document.getElementById("contactForm").addEventListener("submit", function () {
+  // Ne pas bloquer l'envoi, on laisse Formspree faire le travail
+  const modal = document.getElementById("confirmationModal");
+  modal.style.display = "flex";
+
+  // Redirection douce vers l'accueil après 3 secondes
+  setTimeout(() => {
+    document.body.classList.remove("fade-in");
+    document.body.classList.add("fade-out");
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1000);
+  }, 3000);
+});
+
+  </script>
+</body>
+</html>
