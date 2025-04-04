@@ -158,6 +158,7 @@
     <h2>📬 Contact</h2>
     <form id="contactForm" class="contact-form" action="https://formspree.io/f/xdkewzbe" method="POST">
       <input type="hidden" name="_redirect" value="https://tophe069.github.io/zics-tophe/contact.html#confirmation" />
+
       <label for="email">Votre email :</label>
       <input type="email" id="email" name="email" required />
 
@@ -182,6 +183,18 @@
   <script>
     window.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add("fade-in");
+
+      if (window.location.hash === "#confirmation") {
+        const modal = document.getElementById("confirmationModal");
+        modal.style.display = "flex";
+        setTimeout(() => {
+          document.body.classList.remove("fade-in");
+          document.body.classList.add("fade-out");
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 1000);
+        }, 3000);
+      }
     });
 
     document.querySelectorAll(".fade-link").forEach(link => {
@@ -194,18 +207,6 @@
           window.location.href = href;
         }, 1000);
       });
-    });
-
-    document.getElementById("contactForm").addEventListener("submit", function () {
-      const modal = document.getElementById("confirmationModal");
-      modal.style.display = "flex";
-      setTimeout(() => {
-        document.body.classList.remove("fade-in");
-        document.body.classList.add("fade-out");
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 1000);
-      }, 3000);
     });
   </script>
 </body>
