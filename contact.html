@@ -156,8 +156,12 @@
 
   <section class="contact-section">
     <h2>📬 Contact</h2>
-    <form id="contactForm" class="contact-form" action="https://formspree.io/f/xdkewzbe" method="POST">
-      <input type="hidden" name="_redirect" value="https://tophe069.github.io/zics-tophe/contact.html#confirmation" />
+    <form id="contactForm" class="contact-form">
+      <label for="name">Nom / Prénom :</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="subject">Sujet :</label>
+      <input type="text" id="subject" name="subject" required />
 
       <label for="email">Votre email :</label>
       <input type="email" id="email" name="email" required />
@@ -183,18 +187,6 @@
   <script>
     window.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add("fade-in");
-
-      if (window.location.hash === "#confirmation") {
-        const modal = document.getElementById("confirmationModal");
-        modal.style.display = "flex";
-        setTimeout(() => {
-          document.body.classList.remove("fade-in");
-          document.body.classList.add("fade-out");
-          setTimeout(() => {
-            window.location.href = "index.html";
-          }, 1000);
-        }, 3000);
-      }
     });
 
     document.querySelectorAll(".fade-link").forEach(link => {
@@ -206,6 +198,35 @@
         setTimeout(() => {
           window.location.href = href;
         }, 1000);
+      });
+    });
+
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const data = new FormData(form);
+
+      fetch("https://formspree.io/f/xdkewzbe", {
+        method: "POST",
+        headers: { 'Accept': 'application/json' },
+        body: data
+      }).then(response => {
+        if (response.ok) {
+          const modal = document.getElementById("confirmationModal");
+          modal.style.display = "flex";
+          setTimeout(() => {
+            document.body.classList.remove("fade-in");
+            document.body.classList.add("fade-out");
+            setTimeout(() => {
+              window.location.href = "index.html";
+            }, 1000);
+          }, 3000);
+        } else {
+          alert("Une erreur est survenue. Merci d'essayer à nouveau.");
+        }
+      }).catch(error => {
+        alert("Erreur réseau. Vérifie ta connexion.");
       });
     });
   </script>
