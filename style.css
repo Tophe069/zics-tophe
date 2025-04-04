@@ -1,5 +1,5 @@
 
-/* Zics Tophe - Style Global corrigé */
+/* Zics Tophe - Style Global amélioré */
 
 body {
   margin: 0;
@@ -80,7 +80,8 @@ nav ul li a:hover {
 section {
   flex: 1;
   padding: 60px 20px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5); /* surcouche de lisibilité */
+  text-align: center; /* centrer tous les éléments */
   animation: fadeInUp 1s ease;
 }
 
