@@ -1,153 +1,46 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zics Tophe - Musiques</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background: url('background.jpg') no-repeat center center/cover;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      opacity: 0;
-      transition: opacity 1s ease;
-    }
-
-    body.fade-in { opacity: 1; }
-    body.fade-out { opacity: 0; }
-
-    header {
-      background: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 1.5em;
-      font-weight: bold;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-    }
-
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .audio-section {
-      flex: 1;
-      padding: 60px 20px;
-      background: rgba(0, 0, 0, 0.4);
-      text-align: center;
-      animation: fadeInUp 1s ease;
-    }
-
-    .audio-section h2 {
-      font-size: 2em;
-      margin-bottom: 20px;
-    }
-
-    .playlist {
-      list-style: none;
-      padding: 0;
-      margin: 20px auto;
-      max-width: 600px;
-    }
-
-    .playlist li {
-      padding: 12px;
-      margin: 8px 0;
-      background: rgba(255,255,255,0.1);
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .playlist li:hover {
-      background: rgba(255,255,255,0.2);
-    }
-
-    #now-playing {
-      margin-top: 30px;
-      font-weight: bold;
-      font-size: 1.2em;
-    }
-
-    audio {
-      margin-top: 15px;
-      width: 90%;
-      max-width: 600px;
-    }
-
-    footer {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 15px;
-      text-align: center;
-      font-size: 0.9em;
-    }
-
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-      }
-      nav ul {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-      }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
-<body>
+<body class="fade-in">
   <header>
     <div class="logo">Zics Tophe</div>
-    <nav>
+    <div class="menu-toggle" id="burger">&#9776;</div>
+    <nav id="main-nav">
       <ul>
-        <li><a href="index.html" class="fade-link">Accueil</a></li>
-        <li><a href="audio.html" class="fade-link">Musiques</a></li>
-        <li><a href="contact.html" class="fade-link">Contact</a></li>
+        <li><a href="index.html" class="fade-link"><i class="fa fa-home"></i> Accueil</a></li>
+        <li><a href="audio.html" class="fade-link"><i class="fa fa-music"></i> Musiques</a></li>
+        <li><a href="contact.html" class="fade-link"><i class="fa fa-envelope"></i> Contact</a></li>
       </ul>
     </nav>
-	<link rel="stylesheet" href="style.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-rkJcG9e0T+dKMb2OLl+Irc1NJDo/NSZtYMgDEjDQESr8PRCqGhf/vqYYpbXYwBfHOw3syKsUVxX7MbWKhkdrUg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
   </header>
 
   <section class="audio-section">
-    <h2>🎶 Playlist de Zics Tophe</h2>
-
-    <!-- Liste des morceaux -->
-    <ul class="playlist">
-      <li data-src="Tout un monde.mp3">✨ Tout un mode</li>
-      <li data-src="Je m'essouffle derriere toi.mp3">🌌 Je m'essouffle derriere toi</li>
-      <li data-src="I Wanna Be By Tophe.mp3">🔥 I wanna Be </li>
-	<li data-src="nouvelle balade.mp3">🌌 Nouvelle balade  </li>
-	    <li data-src="Un autre jour se leve.mp3">🔥 Un autre jour se leve </li>
-	    <li data-src="Une raison.mp3">🌌 Une raison </li>
-    </ul>
-
-    <!-- Lecteur audio -->
-    <p id="now-playing">Aucun morceau en lecture</p>
+    <h2><i class="fa fa-headphones"></i> Playlist de Zics Tophe</h2>
+    <div class="playlist-container">
+      <div class="track" data-src="musique1.mp3" data-title="Pink Flow - Vibes Astrales">
+        <img src="covers/cover1.jpg" alt="Cover 1">
+        <p>Pink Flow - Vibes Astrales</p>
+      </div>
+      <div class="track" data-src="musique2.mp3" data-title="Cosmic Chill - Espace intérieur">
+        <img src="covers/cover2.jpg" alt="Cover 2">
+        <p>Cosmic Chill - Espace intérieur</p>
+      </div>
+      <div class="track" data-src="musique3.mp3" data-title="Funky Loop - Danse du cœur">
+        <img src="covers/cover3.jpg" alt="Cover 3">
+        <p>Funky Loop - Danse du cœur</p>
+      </div>
+    </div>
+    <p id="now-playing">🎵 Aucun morceau en lecture</p>
     <audio id="player" controls>
       <source src="" type="audio/mpeg">
-      Ton navigateur ne prend pas en charge l’audio 😢
+      Ton navigateur ne supporte pas l’audio 😢
     </audio>
   </section>
 
@@ -156,37 +49,42 @@
   </footer>
 
   <script>
-    // Effet fade-in à l'ouverture
     window.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add("fade-in");
-    });
 
-    // Liens avec fade-out
-    document.querySelectorAll(".fade-link").forEach(link => {
-      link.addEventListener("click", function(e) {
-        e.preventDefault();
-        const href = this.getAttribute("href");
-        document.body.classList.remove("fade-in");
-        document.body.classList.add("fade-out");
-        setTimeout(() => {
-          window.location.href = href;
-        }, 1000);
+      const burger = document.getElementById("burger");
+      const nav = document.getElementById("main-nav");
+
+      if (burger && nav) {
+        burger.addEventListener("click", () => {
+          nav.classList.toggle("show");
+        });
+      }
+
+      document.querySelectorAll(".fade-link").forEach(link => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          const href = this.getAttribute("href");
+          document.body.classList.remove("fade-in");
+          document.body.classList.add("fade-out");
+          setTimeout(() => {
+            window.location.href = href;
+          }, 1000);
+        });
       });
-    });
 
-    // Playlist dynamique
-    const playlistItems = document.querySelectorAll('.playlist li');
-    const player = document.getElementById('player');
-    const nowPlaying = document.getElementById('now-playing');
+      const player = document.getElementById("player");
+      const nowPlaying = document.getElementById("now-playing");
+      const tracks = document.querySelectorAll('.track');
 
-    playlistItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const src = item.getAttribute('data-src');
-        const title = item.textContent;
-
-        player.src = src;
-        nowPlaying.textContent = `🎵 En lecture : ${title}`;
-        player.play();
+      tracks.forEach(track => {
+        track.addEventListener('click', () => {
+          const src = track.getAttribute('data-src');
+          const title = track.getAttribute('data-title');
+          player.src = src;
+          nowPlaying.textContent = `🎵 En lecture : ${title}`;
+          player.play();
+        });
       });
     });
   </script>
