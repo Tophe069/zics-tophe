@@ -24,7 +24,7 @@
   <section class="audio-section">
     <h2><i class="fa fa-headphones"></i> Playlist de Zics Tophe</h2>
     <div class="playlist-container">
-      <div class="track" data-src="I Wanna Be By Tophe.mp3" data-title="I Wanna Be - Tophe">
+      <div class="track" data-src="I Wanna Be By Tophe.mp3" data-title="I Wanna Be - Tophe 2024">
         <img src="cover1.jpg" alt="Cover 1">
         <p>I Wanna Be - Tophe 2024</p>
       </div>
@@ -36,13 +36,14 @@
         <img src="cover1.jpg" alt="Cover 1">
         <p>Tout un monde</p>
       </div>
-     <div class="track" data-src="Un autre jour se leve.mp3" data-title="Un autre jour se leve">
+      <div class="track" data-src="Un autre jour se leve.mp3" data-title="Un autre jour se leve">
         <img src="cover1.jpg" alt="Cover 1">
         <p>Un autre jour se leve</p>
       </div>
-    <div class="track" data-src="Je m'essouffle derriere toi.mp3" data-title="Essoufflement">
+      <div class="track" data-src="Je m'essouffle derriere toi.mp3" data-title="Essoufflement">
         <img src="cover1.jpg" alt="Cover 1">
         <p>Essoufflement</p>
+      </div>
     </div>
     <p id="now-playing">🎵 Aucun morceau en lecture</p>
     <audio id="player" controls>
@@ -84,14 +85,37 @@
       const nowPlaying = document.getElementById("now-playing");
       const tracks = document.querySelectorAll('.track');
 
-      tracks.forEach(track => {
+      let playlist = [];
+      let currentTrackIndex = 0;
+
+      tracks.forEach((track, index) => {
+        const src = track.getAttribute('data-src');
+        const title = track.getAttribute('data-title');
+        playlist.push({ src, title });
+
         track.addEventListener('click', () => {
-          const src = track.getAttribute('data-src');
-          const title = track.getAttribute('data-title');
-          player.src = src;
-          nowPlaying.textContent = `🎵 En lecture : ${title}`;
-          player.play();
+          currentTrackIndex = index;
+          playTrack(currentTrackIndex);
         });
+      });
+
+      function playTrack(index) {
+        const track = playlist[index];
+        if (track) {
+          player.src = track.src;
+          nowPlaying.textContent = `🎵 En lecture : ${track.title}`;
+          player.play();
+        }
+      }
+
+      player.addEventListener('ended', () => {
+        currentTrackIndex++;
+        if (currentTrackIndex < playlist.length) {
+          playTrack(currentTrackIndex);
+        } else {
+          currentTrackIndex = 0;
+          playTrack(currentTrackIndex); // rebouclage automatique
+        }
       });
     });
   </script>
