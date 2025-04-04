@@ -156,17 +156,20 @@
 
   <section class="contact-section">
     <h2>📬 Contact</h2>
-<form class="contact-form" id="contactForm" action="https://formspree.io/f/xdkewzbe" method="POST">
-  <label for="name">Nom :</label>
-  <input type="text" id="name" name="Nom" required>
-
-  <label for="email">Email :</label>
-  <input type="email" id="email" name="Email" required>
-
-  <label for="message">Message :</label>
-  <textarea id="message" name="Message" rows="5" required></textarea>
-
-  <button type="submit">Envoyer</button>
+<form
+  action="https://formspree.io/f/xdkewzbe"
+  method="POST"
+>
+  <label>
+    Your email:
+    <input type="email" name="email">
+  </label>
+  <label>
+    Your message:
+    <textarea name="message"></textarea>
+  </label>
+  <!-- your other form fields go here -->
+  <button type="submit">Send</button>
 </form>
 
   </section>
