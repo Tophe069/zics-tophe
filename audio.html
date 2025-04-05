@@ -3,25 +3,124 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Zics Tophe - Musiques</title>
   <link rel="icon" href="favicon.png" type="image/png" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background: url('background.jpg') no-repeat center center/cover;
+      color: #fff;
+      transition: opacity 1s ease;
+    }
+
+    header {
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: space-between;
+      padding: 1em 2em;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.5em;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5em;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .audio-section {
+      padding: 3em 1em;
+      text-align: center;
+    }
+
+    .audio-section h2 {
+      font-size: 2em;
+      margin-bottom: 1em;
+    }
+
+    .playlist-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2em;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .track {
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      padding: 1em;
+      transition: 0.3s ease;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .track:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    }
+
+    .track img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 1em;
+    }
+
+    .track p {
+      margin: 0.5em 0;
+      font-weight: bold;
+    }
+
+    #player {
+      margin-top: 2em;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    #now-playing {
+      margin-top: 1em;
+      font-style: italic;
+    }
+
+    footer {
+      background: rgba(0,0,0,0.7);
+      text-align: center;
+      padding: 1em;
+      font-size: 0.9em;
+    }
+
+    @media screen and (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        gap: 0.8em;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
 <body class="fade-in">
   <header>
-   <div class="logo">
-  <img src="favicon.png" alt="Zics Tophe logo" style="width: 20px; vertical-align: middle; margin-right: 8px;" />
-  Zics Tophe
-</div>
-
-    <div class="menu-toggle" id="burger">&#9776;</div>
-    <nav id="main-nav">
+    <div class="logo"><img src="favicon.png" alt="logo" style="width: 20px; vertical-align: middle; margin-right: 8px;">Zics Tophe</div>
+    <nav>
       <ul>
-        <li><a href="index.html" class="fade-link"><i class="fa fa-home"></i> Accueil</a></li>
-        <li><a href="audio.html" class="fade-link"><i class="fa fa-music"></i> Musiques</a></li>
-        <li><a href="contact.html" class="fade-link"><i class="fa fa-envelope"></i> Contact</a></li>
+        <li><a href="index.html"><i class="fa fa-home"></i> Accueil</a></li>
+        <li><a href="audio.html"><i class="fa fa-music"></i> Musiques</a></li>
+        <li><a href="contact.html"><i class="fa fa-envelope"></i> Contact</a></li>
       </ul>
     </nav>
   </header>
@@ -30,37 +129,37 @@
     <h2><i class="fa fa-headphones"></i> Playlist de Zics Tophe</h2>
     <div class="playlist-container">
       <div class="track" data-src="I Wanna Be By Tophe.mp3" data-title="I Wanna Be - Tophe 2024">
-        <img src="cover1.jpg" alt="Cover 1">
+        <img src="covers/cover-iwannabe.jpg" alt="Cover">
         <p>I Wanna Be - Tophe 2024</p>
       </div>
       <div class="track" data-src="Une raison.mp3" data-title="Une raison">
-        <img src="cover1.jpg" alt="Cover 1">
+        <img src="covers/cover-uneraison.jpg" alt="Cover">
         <p>Une raison</p>
       </div>
       <div class="track" data-src="Tout un monde.mp3" data-title="Tout un monde">
-        <img src="cover1.jpg" alt="Cover 1">
+        <img src="covers/cover-toutunmonde.jpg" alt="Cover">
         <p>Tout un monde</p>
       </div>
       <div class="track" data-src="Un autre jour se leve.mp3" data-title="Un autre jour se leve">
-        <img src="cover1.jpg" alt="Cover 1">
+        <img src="covers/cover-unautrejour.jpg" alt="Cover">
         <p>Un autre jour se leve</p>
       </div>
       <div class="track" data-src="Je m'essouffle derriere toi.mp3" data-title="Essoufflement">
-        <img src="cover1.jpg" alt="Cover 1">
+        <img src="covers/cover-essoufflement.jpg" alt="Cover">
         <p>Essoufflement</p>
       </div>
-     <div class="track" data-src="reconfinement.mp3" data-title="Reconfinement">
-        <img src="cover1.jpg" alt="Cover 1">
+      <div class="track" data-src="reconfinement.mp3" data-title="Reconfinement">
+        <img src="covers/cover-reconfinement.jpg" alt="Cover">
         <p>Reconfinement</p>
-    </div>
-         <div class="track" data-src="nouvelle balade.mp3" data-title="En balade">
-        <img src="cover1.jpg" alt="Cover 1">
+      </div>
+      <div class="track" data-src="nouvelle balade.mp3" data-title="En balade">
+        <img src="covers/cover-balade.jpg" alt="Cover">
         <p>En balade</p>
+      </div>
     </div>
     <p id="now-playing">🎵 Aucun morceau en lecture</p>
     <audio id="player" controls controlsList="nodownload">
       <source src="" type="audio/mpeg">
-      Ton navigateur ne supporte pas l’audio 😢
     </audio>
   </section>
 
@@ -69,66 +168,38 @@
   </footer>
 
   <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      document.body.classList.add("fade-in");
+    const player = document.getElementById("player");
+    const nowPlaying = document.getElementById("now-playing");
+    const tracks = document.querySelectorAll('.track');
+    let playlist = [], currentTrackIndex = 0;
 
-      const burger = document.getElementById("burger");
-      const nav = document.getElementById("main-nav");
+    tracks.forEach((track, index) => {
+      const src = track.getAttribute('data-src');
+      const title = track.getAttribute('data-title');
+      playlist.push({ src, title });
+      track.addEventListener('click', () => {
+        currentTrackIndex = index;
+        playTrack(index);
+      });
+    });
 
-      if (burger && nav) {
-        burger.addEventListener("click", () => {
-          nav.classList.toggle("show");
-        });
+    function playTrack(index) {
+      const track = playlist[index];
+      if (track) {
+        player.src = track.src;
+        nowPlaying.textContent = `🎵 En lecture : ${track.title}`;
+        player.play();
       }
+    }
 
-      document.querySelectorAll(".fade-link").forEach(link => {
-        link.addEventListener("click", function (e) {
-          e.preventDefault();
-          const href = this.getAttribute("href");
-          document.body.classList.remove("fade-in");
-          document.body.classList.add("fade-out");
-          setTimeout(() => {
-            window.location.href = href;
-          }, 1000);
-        });
-      });
-
-      const player = document.getElementById("player");
-      const nowPlaying = document.getElementById("now-playing");
-      const tracks = document.querySelectorAll('.track');
-
-      let playlist = [];
-      let currentTrackIndex = 0;
-
-      tracks.forEach((track, index) => {
-        const src = track.getAttribute('data-src');
-        const title = track.getAttribute('data-title');
-        playlist.push({ src, title });
-
-        track.addEventListener('click', () => {
-          currentTrackIndex = index;
-          playTrack(currentTrackIndex);
-        });
-      });
-
-      function playTrack(index) {
-        const track = playlist[index];
-        if (track) {
-          player.src = track.src;
-          nowPlaying.textContent = `🎵 En lecture : ${track.title}`;
-          player.play();
-        }
+    player.addEventListener('ended', () => {
+      currentTrackIndex++;
+      if (currentTrackIndex < playlist.length) {
+        playTrack(currentTrackIndex);
+      } else {
+        currentTrackIndex = 0;
+        playTrack(currentTrackIndex);
       }
-
-      player.addEventListener('ended', () => {
-        currentTrackIndex++;
-        if (currentTrackIndex < playlist.length) {
-          playTrack(currentTrackIndex);
-        } else {
-          currentTrackIndex = 0;
-          playTrack(currentTrackIndex); // rebouclage automatique
-        }
-      });
     });
   </script>
 </body>
