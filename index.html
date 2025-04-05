@@ -1,66 +1,162 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Zics Tophe - Accueil</title>
   <link rel="icon" href="favicon.png" type="image/png" />
-  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: url('background.jpg') no-repeat center center/cover;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    body.fade-in {
+      opacity: 1;
+    }
+
+    header {
+      background: rgba(0,0,0,0.7);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5em;
+      font-weight: 700;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 20px 40px;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .hero h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 20px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-item {
+      flex: 0 0 auto;
+      scroll-snap-align: center;
+      background-color: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .carousel-item:hover {
+      transform: scale(1.05);
+    }
+
+    .carousel-item img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .carousel-item p {
+      margin: 0;
+      padding: 10px;
+      font-weight: bold;
+    }
+
+    footer {
+      background: rgba(0,0,0,0.6);
+      padding: 15px;
+      text-align: center;
+      font-size: 0.9em;
+    }
+  </style>
 </head>
 <body class="fade-in">
   <header>
-   <div class="logo">
-  <img src="favicon.png" alt="Zics Tophe logo" style="width: 20px; vertical-align: middle; margin-right: 8px;" />
-  Zics Tophe
-</div>
-
-    <div class="menu-toggle" id="burger">&#9776;</div>
-    <nav id="main-nav">
+    <div class="logo"><img src="favicon.png" alt="logo" style="width: 20px; vertical-align: middle; margin-right: 8px;">Zics Tophe</div>
+    <nav>
       <ul>
-        <li><a href="index.html" class="fade-link"><i class="fa fa-home"></i> Accueil</a></li>
-        <li><a href="audio.html" class="fade-link"><i class="fa fa-music"></i> Musiques</a></li>
-        <li><a href="contact.html" class="fade-link"><i class="fa fa-envelope"></i> Contact</a></li>
+        <li><a href="index.html"><i class="fa fa-home"></i> Accueil</a></li>
+        <li><a href="audio.html"><i class="fa fa-music"></i> Musiques</a></li>
+        <li><a href="contact.html"><i class="fa fa-envelope"></i> Contact</a></li>
       </ul>
     </nav>
   </header>
 
-  <section>
-    <h1>Bienvenue sur Zics Tophe</h1>
-    <p>Explore l’univers de mes créations sonores</p>
+  <section class="hero">
+    <h1>Explore l’univers de mes créations sonores</h1>
+  </section>
+
+  <section class="carousel">
+    <a href="audio.html" class="carousel-item">
+      <img src="cover1.jpg" alt="Cover">
+      <p>I Wanna Be</p>
+    </a>
+    <a href="audio.html" class="carousel-item">
+      <img src="cover1.jpg" alt="Cover">
+      <p>Une raison</p>
+    </a>
+    <a href="audio.html" class="carousel-item">
+      <img src="cover1.jpg" alt="Cover">
+      <p>Tout un monde</p>
+    </a>
+    <a href="audio.html" class="carousel-item">
+      <img src="cover1.jpg" alt="Cover">
+      <p>Un autre jour se lève</p>
+    </a>
+    <a href="audio.html" class="carousel-item">
+      <img src="cover1.jpg" alt="Cover">
+      <p>Essoufflement</p>
+    </a>
+    <a href="audio.html" class="carousel-item">
+      <img src="cover1.jpg" alt="Cover">
+      <p>Reconfinement</p>
+    </a>
+    <a href="audio.html" class="carousel-item">
+      <img src="cover1.jpg" alt="Cover">
+      <p>En balade</p>
+    </a>
   </section>
 
   <footer>
     <p>&copy; 2025 Zics Tophe. Tous droits réservés.</p>
   </footer>
 
-  <!-- Script JS intégré -->
   <script>
     window.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add("fade-in");
-
-      // Menu burger
-      const burger = document.getElementById("burger");
-      const nav = document.getElementById("main-nav");
-
-      if (burger && nav) {
-        burger.addEventListener("click", () => {
-          nav.classList.toggle("show");
-        });
-      }
-
-      // Fade out navigation
-      document.querySelectorAll(".fade-link").forEach(link => {
-        link.addEventListener("click", function (e) {
-          e.preventDefault();
-          const href = this.getAttribute("href");
-          document.body.classList.remove("fade-in");
-          document.body.classList.add("fade-out");
-          setTimeout(() => {
-            window.location.href = href;
-          }, 1000);
-        });
-      });
     });
   </script>
 </body>
