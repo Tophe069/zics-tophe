@@ -152,7 +152,33 @@
       padding: 1em;
       font-size: 0.9em;
     }
-  </style>
+  
+  .toast {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    background: #00aaff;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 1000;
+  }
+
+  .toast.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .track.played {
+    background-color: rgba(255,255,255,0.1);
+  }
+</style>
+<div class="toast" id="toast">Boucle activée</div>
+
 </head>
 <body class="fade-in">
   <header>
@@ -226,14 +252,27 @@
       });
     });
 
-    function playTrack(index, btn) {
+    
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000);
+}
+function playTrack(index, btn) {
       stopAllTracks();
       const audio = document.getElementById(`audio-${index}`);
       const equalizer = document.getElementById(`eq-${index}`);
       btn.classList.add("playing");
       equalizer.style.display = "inline-block";
       audio.volume = globalVolume;
-      audio.play();
+      
+audio.volume = globalVolume;
+audio.play();
+document.querySelectorAll('.track')[index].classList.add("played");
+
     }
 
     function stopAllTracks() {
@@ -289,3 +328,121 @@ function setVolume(slider, index) {
   </script>
 </body>
 </html>
+
+<style>
+  .loop-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.7);
+    color: #00aaff;
+    border: 2px solid #00aaff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 999;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+
+  .loop-btn.active {
+    background: #00aaff;
+    color: #fff;
+    animation: pulse 0.6s ease;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    background: #00aaff;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 1000;
+  }
+
+  .toast.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .track.played {
+    background-color: rgba(255,255,255,0.1);
+  }
+</style>
+<div class="toast" id="toast">Boucle activée</div>
+
+
+<button class="loop-btn" id="loopToggle" title="Lecture en boucle">
+  <i class="fa fa-repeat"></i>
+</button>
+
+<script>
+  let isLooping = localStorage.getItem("zicsLoop") === "true";
+
+  function updateLoopButton() {
+    const btn = document.getElementById("loopToggle");
+    if (isLooping) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
+  }
+
+  document.getElementById("loopToggle").addEventListener("click", () => {
+    isLooping = !isLooping;
+    localStorage.setItem("zicsLoop", isLooping);
+    
+updateLoopButton();
+showToast(isLooping ? "Boucle activée" : "Boucle désactivée");
+
+  });
+
+  
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000);
+}
+function playTrack(index, btn) {
+    stopAllTracks();
+    const audio = document.getElementById(`audio-${index}`);
+    const equalizer = document.getElementById(`eq-${index}`);
+    btn.classList.add("playing");
+    equalizer.style.display = "inline-block";
+    audio.volume = globalVolume;
+    
+audio.volume = globalVolume;
+audio.play();
+document.querySelectorAll('.track')[index].classList.add("played");
+
+    audio.onended = () => {
+      const nextIndex = index + 1;
+      if (nextIndex < document.querySelectorAll("audio").length) {
+        playTrack(nextIndex, document.querySelectorAll(".btn-play")[nextIndex]);
+      } else if (isLooping) {
+        playTrack(0, document.querySelectorAll(".btn-play")[0]);
+      }
+    };
+  }
+
+  
+updateLoopButton();
+showToast(isLooping ? "Boucle activée" : "Boucle désactivée");
+
+</script>
