@@ -232,6 +232,7 @@
       const equalizer = document.getElementById(`eq-${index}`);
       btn.classList.add("playing");
       equalizer.style.display = "inline-block";
+      audio.volume = globalVolume;
       audio.play();
     }
 
@@ -244,7 +245,15 @@
       document.querySelectorAll(".btn-play").forEach(btn => btn.classList.remove("playing"));
     }
 
-    function setVolume(slider, index) {
+    
+let globalVolume = localStorage.getItem('zicsVolume') !== null ? parseFloat(localStorage.getItem('zicsVolume')) : 1;
+
+function setVolume(slider, index) {
+  globalVolume = parseFloat(slider.value);
+  localStorage.setItem('zicsVolume', globalVolume);
+  document.getElementById(`audio-${index}`).volume = globalVolume;
+}
+
       document.getElementById(`audio-${index}`).volume = slider.value;
     }
 
