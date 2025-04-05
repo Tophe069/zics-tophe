@@ -56,6 +56,7 @@
       border-radius: 10px;
       padding: 1em;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      flex-wrap: wrap;
     }
 
     .track img {
@@ -79,8 +80,9 @@
     .controls {
       display: flex;
       align-items: center;
-      gap: 1em;
       flex-wrap: wrap;
+      gap: 1em;
+      width: 100%;
     }
 
     .controls button {
@@ -122,8 +124,7 @@
     }
 
     .slider {
-      width: 120px;
-      cursor: pointer;
+      flex: 1;
     }
 
     .volume-wrapper {
@@ -138,6 +139,11 @@
 
     .volume-wrapper input {
       accent-color: orange;
+    }
+
+    .time-display {
+      font-size: 0.9em;
+      min-width: 40px;
     }
 
     footer {
@@ -203,12 +209,14 @@
               <button onclick="stopAllTracks()">
                 <i class="fa fa-stop"></i>
               </button>
+              <span class="time-display" id="current-${index}">0:00</span>
               <input type="range" class="slider" min="0" value="0" step="0.1" onchange="seekTrack(this, ${index})" id="progress-${index}">
+              <span class="time-display" id="duration-${index}">0:00</span>
               <div class="volume-wrapper">
                 <i class="fa fa-volume-up"></i>
                 <input type="range" min="0" max="1" step="0.01" value="1" onchange="setVolume(this, ${index})">
               </div>
-              <audio id="audio-${index}" ontimeupdate="updateProgress(${index})">
+              <audio id="audio-${index}" ontimeupdate="updateProgress(${index})" onloadedmetadata="updateDuration(${index})">
                 <source src="${track.file}" type="audio/mpeg">
               </audio>
             </div>
@@ -248,10 +256,26 @@
     function updateProgress(index) {
       const audio = document.getElementById(`audio-${index}`);
       const progress = document.getElementById(`progress-${index}`);
+      const current = document.getElementById(`current-${index}`);
       if (!isNaN(audio.duration)) {
         progress.max = audio.duration;
         progress.value = audio.currentTime;
+        current.textContent = formatTime(audio.currentTime);
       }
+    }
+
+    function updateDuration(index) {
+      const audio = document.getElementById(`audio-${index}`);
+      const duration = document.getElementById(`duration-${index}`);
+      if (!isNaN(audio.duration)) {
+        duration.textContent = formatTime(audio.duration);
+      }
+    }
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return m + ":" + (s < 10 ? "0" + s : s);
     }
   </script>
 </body>
