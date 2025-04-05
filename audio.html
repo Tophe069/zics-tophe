@@ -125,9 +125,9 @@
     .equalizer span:nth-child(2) { animation-delay: -0.4s; }
     .equalizer span:nth-child(3) { animation-delay: -0.6s; }
 
-    @keyframes equalize {
-      0%, 100% { transform: scaleY(0.3); }
-      50% { transform: scaleY(1); }
+    .slider {
+      width: 100px;
+      cursor: pointer;
     }
 
     footer {
@@ -152,11 +152,7 @@
 
   <section class="audio-section">
     <h2><i class="fa fa-headphones"></i> Playlist de Zics Tophe</h2>
-
-    <!-- Template des morceaux -->
-    <div id="playlist">
-      <!-- Les morceaux seront injectés ici via JS -->
-    </div>
+    <div id="playlist"></div>
   </section>
 
   <footer>
@@ -182,7 +178,6 @@
       tracks.forEach((track, index) => {
         const trackEl = document.createElement("div");
         trackEl.className = "track";
-
         trackEl.innerHTML = `
           <img src="cover1.jpg" alt="Cover">
           <div class="track-info">
@@ -195,10 +190,12 @@
               <button class="btn-play" onclick="playTrack(${index}, this)">
                 <i class="fa fa-play"></i>
               </button>
-              <button class="btn-stop" onclick="stopAllTracks()">
+              <button onclick="stopAllTracks()">
                 <i class="fa fa-stop"></i>
               </button>
-              <audio id="audio-${index}">
+              <input type="range" class="slider" min="0" max="1" step="0.01" value="1" onchange="setVolume(this, ${index})">
+              <input type="range" class="slider" min="0" value="0" step="0.1" onchange="seekTrack(this, ${index})" id="progress-${index}">
+              <audio id="audio-${index}" ontimeupdate="updateProgress(${index})">
                 <source src="${track.file}" type="audio/mpeg">
               </audio>
             </div>
@@ -208,19 +205,13 @@
       });
     });
 
-    let current = { index: null, audio: null };
-
     function playTrack(index, btn) {
       stopAllTracks();
-
       const audio = document.getElementById(`audio-${index}`);
       const equalizer = document.getElementById(`eq-${index}`);
-
-      audio.play();
       btn.classList.add("playing");
       equalizer.style.display = "inline-block";
-
-      current = { index, audio };
+      audio.play();
     }
 
     function stopAllTracks() {
@@ -228,12 +219,24 @@
         audio.pause();
         audio.currentTime = 0;
       });
-      document.querySelectorAll(".equalizer").forEach(eq => {
-        eq.style.display = "none";
-      });
-      document.querySelectorAll(".btn-play").forEach(btn => {
-        btn.classList.remove("playing");
-      });
+      document.querySelectorAll(".equalizer").forEach(eq => eq.style.display = "none");
+      document.querySelectorAll(".btn-play").forEach(btn => btn.classList.remove("playing"));
+    }
+
+    function setVolume(slider, index) {
+      document.getElementById(`audio-${index}`).volume = slider.value;
+    }
+
+    function seekTrack(slider, index) {
+      const audio = document.getElementById(`audio-${index}`);
+      audio.currentTime = slider.value;
+    }
+
+    function updateProgress(index) {
+      const audio = document.getElementById(`audio-${index}`);
+      const progress = document.getElementById(`progress-${index}`);
+      progress.max = audio.duration;
+      progress.value = audio.currentTime;
     }
   </script>
 </body>
