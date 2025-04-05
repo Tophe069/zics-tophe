@@ -49,11 +49,9 @@
       padding: 1em;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
       flex-wrap: wrap;
+      position: relative;
     }
-    .track.played {
-      background-color: rgba(255,255,255,0.1);
-    }
-    .track img {
+    .track img.cover {
       width: 64px;
       height: 64px;
       object-fit: cover;
@@ -68,50 +66,26 @@
       margin: 0 0 0.5em 0;
       font-weight: bold;
     }
-    .play-count {
-      font-size: 0.8em;
-      opacity: 0.6;
-    }
     .controls {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
       gap: 1em;
       width: 100%;
+      position: relative;
     }
-    .controls button {
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.2em;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-    .controls button.playing {
-      color: yellow;
-    }
-    .equalizer {
-      display: none;
-      height: 20px;
-      width: 20px;
-      margin-left: 10px;
-    }
-    .equalizer span {
-      display: inline-block;
-      width: 3px;
-      height: 100%;
-      margin: 0 1px;
-      background: yellow;
-      animation: equalize 0.6s infinite ease-in-out;
-    }
-    .equalizer span:nth-child(1) { animation-delay: -0.2s; }
-    .equalizer span:nth-child(2) { animation-delay: -0.4s; }
-    .equalizer span:nth-child(3) { animation-delay: -0.6s; }
-    @keyframes equalize {
-      0%, 100% { transform: scaleY(0.3); }
-      50% { transform: scaleY(1); }
+    .controls .dancer {
+      position: absolute;
+      top: -60px;
+      width: 40px;
+      left: 0;
+      transition: left 0.1s linear;
     }
     .slider { flex: 1; }
+    .time-display {
+      font-size: 0.9em;
+      min-width: 40px;
+    }
     .volume-wrapper {
       display: flex;
       flex-direction: column;
@@ -120,59 +94,6 @@
     }
     .volume-wrapper i { color: orange; }
     .volume-wrapper input { accent-color: orange; }
-    .volume-wrapper .play-count {
-      margin-bottom: 3px;
-      font-size: 0.8em;
-      opacity: 0.7;
-      color: #ccc;
-    }
-    .time-display {
-      font-size: 0.9em;
-      min-width: 40px;
-    }
-    .loop-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(0,0,0,0.7);
-      color: #00aaff;
-      border: 2px solid #00aaff;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 999;
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
-    .loop-btn.active {
-      background: #00aaff;
-      color: #fff;
-      animation: pulse 0.6s ease;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-    .toast {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      background: #00aaff;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 0.9em;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-      z-index: 1000;
-    }
-    .toast.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
     footer {
       background: rgba(0,0,0,0.7);
       text-align: center;
@@ -192,182 +113,73 @@
       </ul>
     </nav>
   </header>
+
   <section class="audio-section">
     <h2><i class="fa fa-headphones"></i> Playlist de Zics Tophe</h2>
-    <div id="playlist"></div>
+    <div class="track">
+      <img src="cover1.jpg" class="cover" alt="Cover">
+      <div class="track-info">
+        <p>I Wanna Be - Tophe 2024</p>
+        <div class="controls">
+          <img src="https://em-content.zobj.net/source/telegram/386/man-dancing_1f57a.webp" class="dancer" id="dancer-0" alt="🕺"/>
+          <button onclick="playTrack(0, this)"><i class="fa fa-play"></i></button>
+          <audio id="audio-0" ontimeupdate="moveDancer(0)">
+            <source src="I Wanna Be By Tophe.mp3" type="audio/mpeg">
+          </audio>
+          <span class="time-display" id="current-0">0:00</span>
+          <input type="range" class="slider" id="progress-0" value="0">
+          <span class="time-display" id="duration-0">0:00</span>
+          <div class="volume-wrapper">
+            <i class="fa fa-volume-up"></i>
+            <input type="range" min="0" max="1" step="0.01" value="1" onchange="setVolume(this, 0)">
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
-  <div class="toast" id="toast">Boucle activée</div>
-  <button class="loop-btn" id="loopToggle" title="Lecture en boucle">
-    <i class="fa fa-repeat"></i>
-  </button>
-  <footer><p>&copy; 2025 Zics Tophe. Tous droits réservés.</p></footer>
+
+  <footer>
+    <p>&copy; 2025 Zics Tophe. Tous droits réservés.</p>
+  </footer>
+
   <script>
-    let globalVolume = localStorage.getItem('zicsVolume') !== null ? parseFloat(localStorage.getItem('zicsVolume')) : 1;
-    let isLooping = localStorage.getItem("zicsLoop") === "true";
-
-    function formatTime(seconds) {
-      const m = Math.floor(seconds / 60);
-      const s = Math.floor(seconds % 60);
-      return m + ":" + (s < 10 ? "0" + s : s);
-    }
-
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2000);
-    }
-
-    function getPlayedTracks() {
-      return JSON.parse(localStorage.getItem("zicsPlayed") || "{}");
-    }
-
-    function savePlayedTrack(index) {
-      const plays = getPlayedTracks();
-      plays[index] = (plays[index] || 0) + 1;
-      localStorage.setItem("zicsPlayed", JSON.stringify(plays));
-      updatePlayedVisuals();
-    }
-
-    function updatePlayedVisuals() {
-      const plays = getPlayedTracks();
-      document.querySelectorAll(".track").forEach((track, i) => {
-        if (plays[i]) {
-          track.classList.add("played");
-          let label = track.querySelector(".play-count");
-          if (!label) {
-            label = document.createElement("div");
-            label.className = "play-count";
-            track.querySelector(".volume-wrapper").prepend(label);
-          }
-          label.textContent = `🎧 ${plays[i]}x`;
-        }
-      });
-    }
-
-    document.getElementById("loopToggle").addEventListener("click", () => {
-      isLooping = !isLooping;
-      localStorage.setItem("zicsLoop", isLooping);
-      updateLoopButton();
-      showToast(isLooping ? "Boucle activée" : "Boucle désactivée");
-    });
-
-    function updateLoopButton() {
-      const btn = document.getElementById("loopToggle");
-      if (isLooping) {
-        btn.classList.add("active");
-      } else {
-        btn.classList.remove("active");
-      }
-    }
-
-    function playTrack(index, btn) {
-      stopAllTracks();
-      const audio = document.getElementById(`audio-${index}`);
-      const equalizer = document.getElementById(`eq-${index}`);
-      btn.classList.add("playing");
-      equalizer.style.display = "inline-block";
-      audio.volume = globalVolume;
-      audio.play();
-      savePlayedTrack(index);
-      audio.onended = () => {
-        const nextIndex = index + 1;
-        if (nextIndex < document.querySelectorAll("audio").length) {
-          playTrack(nextIndex, document.querySelectorAll(".btn-play")[nextIndex]);
-        } else if (isLooping) {
-          playTrack(0, document.querySelectorAll(".btn-play")[0]);
-        }
-      };
-    }
-
-    function stopAllTracks() {
-      document.querySelectorAll("audio").forEach(audio => {
-        audio.pause();
-        audio.currentTime = 0;
-      });
-      document.querySelectorAll(".equalizer").forEach(eq => eq.style.display = "none");
-      document.querySelectorAll(".btn-play").forEach(btn => btn.classList.remove("playing"));
+    function formatTime(s) {
+      const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+      return m + ':' + (sec < 10 ? '0' + sec : sec);
     }
 
     function setVolume(slider, index) {
-      globalVolume = parseFloat(slider.value);
-      localStorage.setItem("zicsVolume", globalVolume);
-      document.getElementById(`audio-${index}`).volume = globalVolume;
+      document.getElementById('audio-' + index).volume = parseFloat(slider.value);
     }
 
-    function seekTrack(slider, index) {
-      const audio = document.getElementById(`audio-${index}`);
-      audio.currentTime = slider.value;
+    function playTrack(index, btn) {
+      document.querySelectorAll("audio").forEach((a, i) => {
+        if (i !== index) {
+          a.pause();
+          a.currentTime = 0;
+        }
+      });
+      const audio = document.getElementById("audio-" + index);
+      audio.play();
     }
 
-    function updateProgress(index) {
-      const audio = document.getElementById(`audio-${index}`);
-      const progress = document.getElementById(`progress-${index}`);
-      const current = document.getElementById(`current-${index}`);
+    function moveDancer(index) {
+      const audio = document.getElementById("audio-" + index);
+      const progress = document.getElementById("progress-" + index);
+      const dancer = document.getElementById("dancer-" + index);
+      const current = document.getElementById("current-" + index);
+      const duration = document.getElementById("duration-" + index);
+
       if (!isNaN(audio.duration)) {
         progress.max = audio.duration;
         progress.value = audio.currentTime;
         current.textContent = formatTime(audio.currentTime);
-      }
-    }
-
-    function updateDuration(index) {
-      const audio = document.getElementById(`audio-${index}`);
-      const duration = document.getElementById(`duration-${index}`);
-      if (!isNaN(audio.duration)) {
         duration.textContent = formatTime(audio.duration);
+        const percent = (audio.currentTime / audio.duration);
+        const width = progress.offsetWidth;
+        dancer.style.left = (percent * width - 20) + 'px';
       }
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      document.body.classList.add("fade-in");
-      updateLoopButton();
-      updatePlayedVisuals();
-      const tracks = [
-        { title: "I Wanna Be - Tophe 2024", file: "I Wanna Be By Tophe.mp3" },
-        { title: "Une raison", file: "Une raison.mp3" },
-        { title: "Tout un monde", file: "Tout un monde.mp3" },
-        { title: "Un autre jour se lève", file: "Un autre jour se leve.mp3" },
-        { title: "Essoufflement", file: "Je m'essouffle derriere toi.mp3" },
-        { title: "Reconfinement", file: "reconfinement.mp3" },
-        { title: "En balade", file: "nouvelle balade.mp3" },
-        { title: "Songe", file: "Songe.mp3" }
-      ];
-      const playlistEl = document.getElementById("playlist");
-      tracks.forEach((track, index) => {
-        const trackEl = document.createElement("div");
-        trackEl.className = "track";
-        trackEl.innerHTML = `
-          <img src="cover1.jpg" alt="Cover">
-          <div class="track-info">
-            <p>${track.title}
-              <span class="equalizer" id="eq-${index}">
-                <span></span><span></span><span></span>
-              </span>
-            </p>
-            <div class="controls">
-              <button class="btn-play" onclick="playTrack(${index}, this)">
-                <i class="fa fa-play"></i>
-              </button>
-              <button onclick="stopAllTracks()">
-                <i class="fa fa-stop"></i>
-              </button>
-              <span class="time-display" id="current-${index}">0:00</span>
-              <input type="range" class="slider" min="0" value="0" step="0.1" onchange="seekTrack(this, ${index})" id="progress-${index}">
-              <span class="time-display" id="duration-${index}">0:00</span>
-              <div class="volume-wrapper">
-                <i class="fa fa-volume-up"></i>
-                <input type="range" min="0" max="1" step="0.01" value="1" onchange="setVolume(this, ${index})">
-              </div>
-              <audio id="audio-${index}" ontimeupdate="updateProgress(${index})" onloadedmetadata="updateDuration(${index})">
-                <source src="${track.file}" type="audio/mpeg">
-              </audio>
-            </div>
-          </div>
-        `;
-        playlistEl.appendChild(trackEl);
-      });
-    });
   </script>
 </body>
 </html>
