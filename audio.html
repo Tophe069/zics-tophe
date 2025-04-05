@@ -14,7 +14,6 @@
       margin: 0;
       background: url('background.jpg') no-repeat center center/cover;
       color: #fff;
-      transition: opacity 1s ease;
     }
 
     header {
@@ -42,56 +41,61 @@
     }
 
     .audio-section {
-      padding: 3em 1em;
+      padding: 2em;
       text-align: center;
+      max-width: 1000px;
+      margin: 0 auto;
     }
 
     .audio-section h2 {
       font-size: 2em;
-      margin-bottom: 1em;
-    }
-
-    .playlist-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 2em;
-      max-width: 1200px;
-      margin: 0 auto;
+      margin-bottom: 2em;
     }
 
     .track {
-      background: rgba(255,255,255,0.05);
-      border-radius: 15px;
+      background-color: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5em;
+      border-radius: 10px;
       padding: 1em;
-      transition: 0.3s ease;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
 
-    .track:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-    }
-
     .track img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 1em;
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 1em;
     }
 
-    .track p {
-      margin: 0.5em 0;
+    .track-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .track-info p {
+      margin: 0 0 0.5em 0;
       font-weight: bold;
     }
 
-    #player {
-      margin-top: 2em;
-      width: 100%;
-      max-width: 400px;
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 1em;
     }
 
-    #now-playing {
-      margin-top: 1em;
-      font-style: italic;
+    .controls button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+
+    audio {
+      width: 150px;
     }
 
     footer {
@@ -101,19 +105,23 @@
       font-size: 0.9em;
     }
 
-    @media screen and (max-width: 600px) {
-      nav ul {
-        flex-direction: column;
-        gap: 0.8em;
-      }
-      header {
+    @media (max-width: 600px) {
+      .track {
         flex-direction: column;
         align-items: flex-start;
+      }
+      .controls {
+        margin-top: 1em;
+        width: 100%;
+        justify-content: space-between;
+      }
+      audio {
+        width: 100%;
       }
     }
   </style>
 </head>
-<body class="fade-in">
+<body>
   <header>
     <div class="logo"><img src="favicon.png" alt="logo" style="width: 20px; vertical-align: middle; margin-right: 8px;">Zics Tophe</div>
     <nav>
@@ -127,40 +135,98 @@
 
   <section class="audio-section">
     <h2><i class="fa fa-headphones"></i> Playlist de Zics Tophe</h2>
-    <div class="playlist-container">
-      <div class="track" data-src="I Wanna Be By Tophe.mp3" data-title="I Wanna Be - Tophe 2024">
-        <img src="cover1.jpg" alt="Cover">
+
+    <div class="track">
+      <img src="cover1.jpg" alt="Cover">
+      <div class="track-info">
         <p>I Wanna Be - Tophe 2024</p>
-      </div>
-      <div class="track" data-src="Une raison.mp3" data-title="Une raison">
-        <img src="cover1.jpg" alt="Cover">
-        <p>Une raison</p>
-      </div>
-      <div class="track" data-src="Tout un monde.mp3" data-title="Tout un monde">
-        <img src="cover1.jpg" alt="Cover">
-        <p>Tout un monde</p>
-      </div>
-      <div class="track" data-src="Un autre jour se leve.mp3" data-title="Un autre jour se leve">
-        <img src="cover1.jpg" alt="Cover">
-        <p>Un autre jour se leve</p>
-      </div>
-      <div class="track" data-src="Je m'essouffle derriere toi.mp3" data-title="Essoufflement">
-        <img src="cover1.jpg" alt="Cover">
-        <p>Essoufflement</p>
-      </div>
-      <div class="track" data-src="reconfinement.mp3" data-title="Reconfinement">
-        <img src="cover1.jpg" alt="Cover">
-        <p>Reconfinement</p>
-      </div>
-      <div class="track" data-src="nouvelle balade.mp3" data-title="En balade">
-        <img src="cover1.jpg" alt="Cover">
-        <p>En balade</p>
+        <div class="controls">
+          <button onclick="playTrack('I Wanna Be By Tophe.mp3', this)"><i class="fa fa-play"></i></button>
+          <audio preload="metadata">
+            <source src="I Wanna Be By Tophe.mp3" type="audio/mpeg">
+          </audio>
+        </div>
       </div>
     </div>
-    <p id="now-playing">🎵 Aucun morceau en lecture</p>
-    <audio id="player" controls controlsList="nodownload">
-      <source src="" type="audio/mpeg">
-    </audio>
+
+    <div class="track">
+      <img src="cover1.jpg" alt="Cover">
+      <div class="track-info">
+        <p>Une raison</p>
+        <div class="controls">
+          <button onclick="playTrack('Une raison.mp3', this)"><i class="fa fa-play"></i></button>
+          <audio preload="metadata">
+            <source src="Une raison.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+    </div>
+
+    <div class="track">
+      <img src="cover1.jpg" alt="Cover">
+      <div class="track-info">
+        <p>Tout un monde</p>
+        <div class="controls">
+          <button onclick="playTrack('Tout un monde.mp3', this)"><i class="fa fa-play"></i></button>
+          <audio preload="metadata">
+            <source src="Tout un monde.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+    </div>
+
+    <div class="track">
+      <img src="cover1.jpg" alt="Cover">
+      <div class="track-info">
+        <p>Un autre jour se lève</p>
+        <div class="controls">
+          <button onclick="playTrack('Un autre jour se leve.mp3', this)"><i class="fa fa-play"></i></button>
+          <audio preload="metadata">
+            <source src="Un autre jour se leve.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+    </div>
+
+    <div class="track">
+      <img src="cover1.jpg" alt="Cover">
+      <div class="track-info">
+        <p>Essoufflement</p>
+        <div class="controls">
+          <button onclick="playTrack('Je m\'essouffle derriere toi.mp3', this)"><i class="fa fa-play"></i></button>
+          <audio preload="metadata">
+            <source src="Je m'essouffle derriere toi.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+    </div>
+
+    <div class="track">
+      <img src="cover1.jpg" alt="Cover">
+      <div class="track-info">
+        <p>Reconfinement</p>
+        <div class="controls">
+          <button onclick="playTrack('reconfinement.mp3', this)"><i class="fa fa-play"></i></button>
+          <audio preload="metadata">
+            <source src="reconfinement.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+    </div>
+
+    <div class="track">
+      <img src="cover1.jpg" alt="Cover">
+      <div class="track-info">
+        <p>En balade</p>
+        <div class="controls">
+          <button onclick="playTrack('nouvelle balade.mp3', this)"><i class="fa fa-play"></i></button>
+          <audio preload="metadata">
+            <source src="nouvelle balade.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <footer>
@@ -168,39 +234,15 @@
   </footer>
 
   <script>
-    const player = document.getElementById("player");
-    const nowPlaying = document.getElementById("now-playing");
-    const tracks = document.querySelectorAll('.track');
-    let playlist = [], currentTrackIndex = 0;
-
-    tracks.forEach((track, index) => {
-      const src = track.getAttribute('data-src');
-      const title = track.getAttribute('data-title');
-      playlist.push({ src, title });
-      track.addEventListener('click', () => {
-        currentTrackIndex = index;
-        playTrack(index);
+    function playTrack(src, btn) {
+      document.querySelectorAll("audio").forEach(audio => {
+        audio.pause();
+        audio.currentTime = 0;
       });
-    });
 
-    function playTrack(index) {
-      const track = playlist[index];
-      if (track) {
-        player.src = track.src;
-        nowPlaying.textContent = `🎵 En lecture : ${track.title}`;
-        player.play();
-      }
+      const audio = btn.parentElement.querySelector("audio");
+      audio.play();
     }
-
-    player.addEventListener('ended', () => {
-      currentTrackIndex++;
-      if (currentTrackIndex < playlist.length) {
-        playTrack(currentTrackIndex);
-      } else {
-        currentTrackIndex = 0;
-        playTrack(currentTrackIndex);
-      }
-    });
   </script>
 </body>
 </html>
